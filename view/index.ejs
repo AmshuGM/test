@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+  <script src="https://kit.fontawesome.com/90eb94b752.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <title>Homepage</title>
+
+</head>
+
+<body>
+
+  <section id="title">
+    <div class="container-fluid">
+      <nav class="navbar">
+        <div class="navbar-left">
+          <a href="https://bmsce.ac.in"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/87/BMS_College_of_Engineering.svg/1200px-BMS_College_of_Engineering.svg.png" alt="Website Icon" class="logo-image"></a>
+          <a href="#" class="navbar-title">BMSCE Activity Page</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-right" id="navbarTogglerDemo01">
+          <ul class="navbar-list">
+            <li><a href="#foots">Contact Us</a></li>
+            <li><a href="#middd">Events</a></li>
+            <li><a href="https://bmsce.ac.in/home/Life-at-BMSCE" target="_blank">Outside</a></li>
+            <li><button class="dark-mode btn btn-sm btn-outline-light" id="dark-mode-toggle"><i class="fas fa-toggle-on"></i></button></li>
+          </ul>
+          
+        </div>
+      </nav>
+      </div>
+      <% if(typeof message != 'undefined') { %>
+        <div class="alert alert-danger" role="alert" onclick="hideam()">
+          <strong><%= message %> !!!</strong>  click to close
+          <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <script>
+          function hideam(){
+            const iteam=document.getElementsByClassName("alert alert-danger")[0];
+            iteam.style.display ="none";
+          }
+        </script>
+         
+        
+        <% } %>
+  </section>
+
+  <div class="update_recent">
+    <marquee behavior="alternate">Welcome to our Page :) </marquee>
+  </div>
+
+  <section id="start">
+  <div class="row">
+    <div class="col-lg-6 startcontent">
+      <h1 class="header">Your side quests<br>are calling  <i class="fas fa-phone-alt"></i>...</h1>
+      <div class="buttonslol">
+      <div id="modal">
+        <!-- <div class="form1">
+          
+        </div> -->
+        
+        <form id="login-form" method="post" action="index2">
+          <div class="login-head"> <div class="login-wel">Welcome Back</div> <div><button id="close-btn"><i class="fa-solid fa-xmark"></i></button></div> </div>
+          <input type="email" name="email" placeholder="College Email" id="email" class="ppp" required>
+          <input type="password" name="pass" placeholder="Password" id="password" class="ppp" required>
+          <div class="paslog"><label for="show-password">Show Password</label>
+          <input type="checkbox" id="show-password"></div>
+          <input style="width: 100%;" type="submit" class="signupbutt" value="Login" id="login-btn">
+          <div class="altoption">Don't have an account?  
+          <input type="button1" class="randbut" value="Signup" onclick="openForm()"></input> </div>
+          
+        </form>
+
+        <!-- do not use this -->
+        <form id="admin-form">
+          <div class="login-head"> <div class="login-wel">Welcome Admin  Back</div> <div><button id="close-btn"><i class="fa-solid fa-xmark"></i></button></div> </div>
+          <input type="email" placeholder="College Email" id="emaila" class="ppp">
+          <input type="password" placeholder="Password" id="passworda" class="ppp">
+          <div class="paslog"><label for="show-password">Show Password</label>
+            <input type="checkbox" id="show-passworda"></div>
+          <input type="button" value="Login" id="login-btn1">
+          <div class="altoption">Don't have an account?  
+          <input type="button1" class="randbut" value="Signup" onclick="openForm()"></input> </div>
+          
+        </form>
+        <!-- here -->
+      </div>
+      <button id="open-btn" class="btn btn-dark btn-lg"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+
+      
+
+      <div id="modal1">
+        <form id="signup-form" method="post" action="">
+          <div class="login-head">
+            <div class="login-wel">Hello, Welcome</div>
+            <div><button id="close-btn1"><i class="fa-solid fa-xmark"></i></button></div>
+          </div>
+          <label class="signuplab">Name</label>
+          <input type="text" name="name" placeholder="name" class="ppp" required>
+          <label class="signuplab">College Email Address</label>
+          <input type="email" name="email" placeholder="College Email" id="email1" class="ppp" required>
+          <label class="signuplab">USN</label>
+          <input type="text" name="usn" placeholder="USN" id="usn" class="ppp" required>
+          <label class="signuplab">Admin ID</label>
+          <input type="text" name="isAdmin" placeholder="Only for admins" id="isAdmin" class="ppp">
+          <label class="signuplab">Section</label>
+          <input type="text" name="section" placeholder="Section" id="email1" class="ppp" required>
+          <label class="signuplab">Enter your password</label>
+          <div class="password-wrapper">
+            <input type="password" name="pass" placeholder="Enter your Password" id="password1" class="ppp" required>
+            <label for="show-password1">Show Password</label>
+            <input type="checkbox" id="show-password1">
+          </div>
+          <label class="signuplab">Re-enter your password</label>
+          <div class="password-wrapper">
+            <input type="password" placeholder="Confirm your Password" id="password2" class="ppp" required>
+            <label for="show-password2">Show Password</label>
+            <input type="checkbox" id="show-password2">
+          </div>
+          <input style="width: 100%;" type="submit" class="signupbutt" value="Sign Up" id="signup-btn">
+          <div id="error-message" style="color: red;"></div>
+        </form>
+        <script>
+          // Form submission event listener
+          document.getElementById('signup-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+        
+            // Clear error message
+            document.getElementById('error-message').textContent = '';
+            // Validate email
+            var email = document.getElementById('email1').value;
+            var isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+            if (!isEmailValid) {
+              document.getElementById('error-message').textContent =
+                'Please enter a valid email address.';
+              return;
+            }
+        
+            // Validate password
+            var password = document.getElementById('password1').value;
+            var confirmPassword = document.getElementById('password2').value;
+        
+            var hasLetter = /[a-zA-Z]/.test(password);
+            var hasCapitalLetter = /[A-Z]/.test(password);
+            var isEightCharsLong = password.length >= 8;
+        
+            if (!hasLetter || !hasCapitalLetter || !isEightCharsLong) {
+              document.getElementById('error-message').textContent =
+                'Password must contain at least 1 letter, 1 capital letter, and be 8 characters long.';
+              return;
+            }
+        
+            if (password !== confirmPassword) {
+              document.getElementById('error-message').textContent =
+                'Passwords do not match.';
+              return;
+            }
+            // Validate USN
+            var usn = document.getElementById('usn').value;
+              var isUSNValid = /^1BM.{7}$/.test(usn);
+
+              if (!isUSNValid) {
+            document.getElementById('error-message').textContent =
+              'USN must start with "1BM" and be 10 characters long.';
+            return;
+               }
+        
+            // Submit the form if password is valid
+            this.submit();
+          });
+        </script>
+        
+        
+        <form id="signup-form-admin" method="post" action="index/register">
+          <div class="login-head"> <div class="login-wel">Hello, Welcome Admin</div> <div><button id="close-btn1"><i class="fa-solid fa-xmark"></i></button></div> </div>
+          <label class="signuplab">College Email Address</label>
+          <input type="email" name="email" placeholder="College Email" id="email1a" class="ppp">
+          <label class="signuplab">Club Name</label>
+          <input type="text" placeholder="Name of Club" id="usna" class="ppp">
+          <label class="signuplab">Enter your password</label>
+          <input type="password" placeholder="Enter your Password" id="password1a" class="ppp">
+          <label for="show-password1">Show Password</label>
+            <input type="checkbox" id="show-password1a">
+          <!-- <label class="signuplab">Re-enter your password</label>
+          <input type="password" placeholder="Confirm your Password" id="password2a" class="ppp"> -->
+          <input type="button" value="Sign Up" id="signup-btn1">
+        </form>
+      </div>
+      <button id="open-btn1" class="btn btn-dark btn-lg"><i class="fa-solid fa-user-plus"></i> Sign Up</button>
+      <br>
+      <!-- <p class="checkkk">
+        <input type="checkbox" name="admincheck" id="adminCheck"> Are you an Admin ?
+      </p> -->
+      
+
+
+    </div>
+    </div>
+    <div class="col-lg-6 startcontent">
+      <img src="act.png" alt="" class="activity_logo">
+    </div>
+  </section>
+
+  <div class="update_recent">
+    <marquee behavior="alternate"><i class="fas fa-angle-double-down"></i>  Contact Us  <i class="fas fa-angle-double-down"></i></marquee>
+  </div>
+
+  
+
+  <footer id="foots">
+    <div class="row">
+      <div class="col-3"><img src="concon.png" class="conimg"></div>
+      <div class="col-3 try1">
+        <h5 class="subhead"><i class="fas fa-map-marker-alt"></i>  Address</h5>
+        <a href="https://www.google.com/maps/place/BMS+College+of+Engineering/@12.9410357,77.564953,19.53z/data=!4m5!3m4!1s0x0:0x5f4adbdbab8bd80f!8m2!3d12.9410122!4d77.5655258" target="_blank">
+      <br>P.O. Box No.:1908<br>Bull Temple Road, Basavangudi<br>Bangalore - 56019<br>Karnataka, India </a>
+      </div>
+      <div class="col-3 try1">
+        <h5 class="subhead"><i class="fas fa-envelope"></i>   Mail</h5>
+        <a href="mailto:anoshorpaul@gmail.com">xyz@gmail.com</a>
+        <br><br>
+        <h5 class="subhead"><i class="fas fa-phone-square-alt"></i>   Phone</h5>
+        <a href="tel:6000230754">+91XXXXXXXXXX</a>
+      </div>
+      <div class="col-3 try1">
+        <h5 class="subhead"><i class="fas fa-users"></i>   Our Socials</h5>
+        <br>
+        <p class="insta"><a href="https://www.instagram.com/" target="_blank">Instagram   <i class="fab fa-instagram"></i></a></p>
+        <p class="fb"><a href="https://www.facebook.com" target="_blank">Facebook   <i class="fab fa-facebook"></i></a></p>
+        <p class="twit"><a href="https://www.twitter.com" target="_blank">Twitter   <i class="fab fa-twitter"></i></a></p>
+      </div>
+    </div>
+
+  </footer>
+
+
+
+    <script src="scripts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+
+
+</html>
+
+
+
