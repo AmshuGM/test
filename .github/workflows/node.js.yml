@@ -28,5 +28,4 @@ jobs:
         cache: 'npm'
     
 
-    - run: npm ci
-    - run: npm i bcrypt
+    - run: npm install --save bcryptjs && npm uninstall --save bcrypt
