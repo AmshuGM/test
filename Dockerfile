@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package*.json .
 
-RUN npm ci
+RUN npm install --save bcryptjs && npm uninstall --save bcrypt
 
 COPY . .
 
