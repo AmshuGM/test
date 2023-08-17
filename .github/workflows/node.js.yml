@@ -29,3 +29,10 @@ jobs:
     
 
     - run: npm install --save bcryptjs && npm uninstall --save bcrypt
+    - name: Build and push docker images
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+         image: anoshor/devops_docker
+         registry: docker.io
+         username: ${{ secrets.DOCKER_USERNAME }}
+         password: ${{ secrets.DOCKER_PASSWORD }}
