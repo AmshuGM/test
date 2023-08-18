@@ -1,2 +1,2 @@
-const sessionsecret = "mysecret";
+const sessionsecret = "secret";
 module.exports=  {sessionsecret};
