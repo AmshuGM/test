@@ -19,7 +19,7 @@ services:
     depends_on:
       - mongodb
     environment:
-      - MONGODB_URL=mongodb://mongodb:27017/newDB  # Use the service name 'mongodb'
+      - MONGODB_URL=mongodb+srv://devopsprojectbmsce:devops_project@devopsproject.m86dhzw.mongodb.net/devops_project?retryWrites=true&w=majority  # Use the service name 'mongodb'
     networks:
       - app-network
 
