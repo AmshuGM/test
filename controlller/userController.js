@@ -108,36 +108,26 @@ const logout = async(req,res)=>{
     }
 }
 
-const fetchEvents = async(req,res)=>{
+const fetchEvents = async (req, res) => {
     try {
-        let eventLists;
-        let isAdmin;
-        const clubId = req.params.eventId;
-        const userId = req.session.user_id;
-        if (userId === undefined) {
-            isAdmin = false;
-        } else {
-            const UserTable = await user.findById({_id:req.session.user_id});
-            isAdmin = UserTable.isAdmin;
-        }
-
-        // Retrieve all events associated with an club / event id.
-        const clubEvents = await events.find()
-                                .where("eventId")
-                                .equals(clubId)
-                                .select("events")
-                                .exec();
-        clubEvents.forEach(event => {
-            eventLists = event["events"];
-        });
-        res.render(clubId, {
-            isUserAdmin: isAdmin,
-            eventList: eventLists,
-        });
+      const u = await user.findById({ _id: req.session.user_id });
+      const myEvent = u.myEvents;
+      const obj = [];
+  
+      // Use a for...of loop with await inside to fetch each event
+      for (const eventId of myEvent) {
+        const temp = await events.findById({ _id: eventId });
+        obj.push(temp);
+      }
+  
+      // Render the page after fetching all events
+      console.log(obj)
+      res.render('code_io', { myEvent: obj });
     } catch (error) {
-        console.log(error); 
+      console.log(error);
     }
-}
+  };
+  
 
 
 

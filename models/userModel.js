@@ -8,7 +8,7 @@ const usersSchema = new mongoose.Schema({
     name:{type:String,required:true},
     section:{type:String,required:true},
     isAdmin:{type:String,default:0},
-    myEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Events' }]
+    myEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Events',default:[]}]
     });
 
 const eventsSchema = new mongoose.Schema({
