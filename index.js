@@ -24,3 +24,5 @@ app.use('/',userRoute);
 app.listen(3000,()=>{
     console.log("the app is running in http://localhost:3000/index")
 });
+
+//added a comment to test the ci cd pipeline
