@@ -113,17 +113,52 @@
 <h1>My Events</h1>
     
     <% if (myEvent.length > 0) { %>
-        <ul>
-            <% myEvent.forEach(event => { 
-              const e = event.events;
-              for (let i=0;i<e.length;i++) {%>
-                <li>
+      <style>
+        .event-card {
+            background-color: #262626; /* Dark gray background */
+            color: rgb(247, 176, 253); /* Pink text color */
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            width: 280px; /* Set a fixed width for all cards */
+            height: 200px; /* Set a fixed height for all cards */
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+        }
+    
+        .event-card:hover {
+            background-color: rgb(247, 176, 253); /* Pink background on hover */
+            color: #262626; /* Dark gray text color on hover */
+        }
+    
+        h2 {
+            font-size: 1.2em;
+            margin: 0;
+        }
+    
+        p {
+            margin: 0;
+        }
+    </style>
+    
+    <ul>
+        <% myEvent.forEach(event => { 
+            const e = event.events;
+            for (let i=0; i < e.length; i++) { %>
+                <li class="event-card">
                     <h2>Event <%= e[i].eventName %></h2>
                     <p>Desc: <%= e[i].eventDesc %></p>
                     <!-- Add more event details as needed -->
                 </li>
-            <%} }); %>
-        </ul>
+            <% } 
+        }); %>
+    </ul>
+    
+    
     <% } else { %>
         <p>No events to display.</p>
     <% } %>
@@ -150,9 +185,15 @@
     console.error('There was a problem with the fetch operation:', error);
   });
   };
-  
+
+  function addevent()
+  {
+    console.log("the event button is working");
+  }
 
 </script>
+
+<button onclick="addevent()">add event</button>
 
 <!-- and it finished here -->
 
