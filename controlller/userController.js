@@ -29,7 +29,7 @@ const loadsecond_admin = async(req,res)=>{
         
     } catch (error) {
         console.log(error.message);
-        
+         
     }
 }
 const loadsecond = async(req,res)=>{
@@ -128,7 +128,49 @@ const fetchEvents = async (req, res) => {
     }
   };
   
+const createForm = async (req,res) =>
+{
+    try 
+    {
+        res.render('createForm');
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+const submitEvent = async(req,res)=>{
+    try {
+        // Assuming you have a mongoose model named 'EventModel'
+        const event = {
+           
+            eventName: req.body.eventName,
+            eventDesc: req.body.eventDescription
+        };
+    
+       console.log(req.body.eventName,req.body.eventDescription);
+         
+            // Fetch the target object that contains the 'events' array
+            const targetObject = await events.findOne({ eventId: req.body.eventType});
+    
+            if (targetObject) {
+                // If the object with the matching eventId is found, push the new event to its 'events' array
+                targetObject.events.push(event);
+    
+                // Save the updated object back to the database
+                await targetObject.save();
+    
+                res.render('createForm');
+            } else {
+                // Handle the case where the object with the matching eventId was not found
+                res.render('createForm');
+            }
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+    
+}
 
 
-
-module.exports = {loadRegister,insertUser,verifyLogin,loadsecond,loadsecond_admin,logout,fetchEvents};
+module.exports = {loadRegister,insertUser,verifyLogin,loadsecond,loadsecond_admin,logout,fetchEvents,submitEvent,createForm};

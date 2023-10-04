@@ -27,6 +27,8 @@ user_route.get('/events/:eventId', userController.fetchEvents);
 user_route.post('/index',userController.insertUser);
 user_route.post('/index2',userController.verifyLogin);
 user_route.get('/events',userController.fetchEvents)
-
+//create event
+user_route.get('/createEvent',auth.islogin,userController.createForm);
+user_route.post('/createEvent',auth.islogin,userController.submitEvent);
 
 module.exports = user_route;
