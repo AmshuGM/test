@@ -128,6 +128,7 @@ const submitEvent = async (req, res) => {
         const event = {
             eventName: req.body.eventName,
             eventDesc: req.body.eventDesc,
+            googleFormLink:req.body.googleFormLink,
         };
 
         // console.log(req.body.eventName, req.body.eventDescription);
@@ -170,9 +171,9 @@ const loadCodeio = async (req, res) => {
         const userId = req.session.user_id;
 
         // Find the "code_io" club by its name (assuming it's unique)
-        const protocolClub = await Clubs.findOne({ name: 'code_io' }).exec();
+        const Augmentai = await Clubs.findOne({ name: 'code_io' }).exec();
 
-        if (!protocolClub) {
+        if (!Augmentai) {
             return res.status(404).send('Club not found');
         }
 
@@ -194,11 +195,11 @@ const loadCodeio = async (req, res) => {
 
         // Filter userRegistrations for the given club (code_io)
         const filteredMyEvent = myEvent.filter((event) => {
-            return event.clubId.toString() === protocolClub._id.toString();
+            return event.clubId.toString() === Augmentai._id.toString();
         });
 
         // Find all events related to the "code_io" club
-        const allCodeIoEvents = await events.find({ clubId: protocolClub._id }).exec();
+        const allCodeIoEvents = await events.find({ clubId: Augmentai._id }).exec();
         
         // Render the EJS template with the retrieved data
         res.render('code_io', {
@@ -221,9 +222,9 @@ const loadProtocol = async (req, res) => {
         const userId = req.session.user_id;
 
         // Find the "code_io" club by its name (assuming it's unique)
-        const protocolClub = await Clubs.findOne({ name: 'protocol' }).exec();
+        const Augmentai = await Clubs.findOne({ name: 'protocol' }).exec();
 
-        if (!protocolClub) {
+        if (!Augmentai) {
             return res.status(404).send('Club not found');
         }
 
@@ -245,11 +246,11 @@ const loadProtocol = async (req, res) => {
 
         // Filter userRegistrations for the given club (code_io)
         const filteredMyEvent = myEvent.filter((event) => {
-            return event.clubId.toString() === protocolClub._id.toString();
+            return event.clubId.toString() === Augmentai._id.toString();
         });
 
         // Find all events related to the "code_io" club
-        const allCodeIoEvents = await events.find({ clubId: protocolClub._id }).exec();
+        const allCodeIoEvents = await events.find({ clubId: Augmentai._id }).exec();
         
         // Render the EJS template with the retrieved data
         res.render('protocol', {
@@ -261,7 +262,160 @@ const loadProtocol = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+const loadIse = async (req, res) => {
+    try {
+        // Check if user is logged in and has a valid session
+        if (!req.session || !req.session.user_id) {
+            return res.status(401).send('Unauthorized'); // Handle unauthorized access
+        }
 
+        // Get the currently logged-in user's ID from the session
+        const userId = req.session.user_id;
+
+        // Find the "code_io" club by its name (assuming it's unique)
+        const Augmentai = await Clubs.findOne({ name: 'ise' }).exec();
+
+        if (!Augmentai) {
+            return res.status(404).send('Club not found');
+        }
+
+        // Find the user's document
+        const User = await user.findById(userId).exec();
+
+        if (!User) {
+            return res.status(404).send('User not found');
+        }
+
+        // Extract the user's registrations
+        const userRegistrations = User.registrations || [];
+
+        // Find event details for each registration
+        const myEvent = await Promise.all(userRegistrations.map(async (registration) => {
+            const event = await events.findById(registration.eventId).exec();
+            return event;
+        }));
+
+        // Filter userRegistrations for the given club (code_io)
+        const filteredMyEvent = myEvent.filter((event) => {
+            return event.clubId.toString() === Augmentai._id.toString();
+        });
+
+        // Find all events related to the "code_io" club
+        const allCodeIoEvents = await events.find({ clubId: Augmentai._id }).exec();
+        
+        // Render the EJS template with the retrieved data
+        res.render('ise', {
+            myEvent: filteredMyEvent, // Pass myEvent to the template
+            allCodeIoEvents,isAdmin:User.isAdmin,
+        });
+    } catch (error) {
+        console.error('Error handling code_io page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+const loadAugmentai = async (req, res) => {
+    try {
+        // Check if user is logged in and has a valid session
+        if (!req.session || !req.session.user_id) {
+            return res.status(401).send('Unauthorized'); // Handle unauthorized access
+        }
+
+        // Get the currently logged-in user's ID from the session
+        const userId = req.session.user_id;
+
+        // Find the "code_io" club by its name (assuming it's unique)
+        const Augmentai = await Clubs.findOne({ name: 'augmentai' }).exec();
+
+        if (!Augmentai) {
+            return res.status(404).send('Club not found');
+        }
+
+        // Find the user's document
+        const User = await user.findById(userId).exec();
+
+        if (!User) {
+            return res.status(404).send('User not found');
+        }
+
+        // Extract the user's registrations
+        const userRegistrations = User.registrations || [];
+
+        // Find event details for each registration
+        const myEvent = await Promise.all(userRegistrations.map(async (registration) => {
+            const event = await events.findById(registration.eventId).exec();
+            return event;
+        }));
+
+        // Filter userRegistrations for the given club (code_io)
+        const filteredMyEvent = myEvent.filter((event) => {
+            return event.clubId.toString() === Augmentai._id.toString();
+        });
+
+        // Find all events related to the "code_io" club
+        const allCodeIoEvents = await events.find({ clubId: Augmentai._id }).exec();
+        
+        // Render the EJS template with the retrieved data
+        res.render('augmentai', {
+            myEvent: filteredMyEvent, // Pass myEvent to the template
+            allCodeIoEvents,isAdmin:User.isAdmin,
+        });
+    } catch (error) {
+        console.error('Error handling code_io page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+const loadIEEEcs = async (req, res) => {
+    try {
+        // Check if user is logged in and has a valid session
+        if (!req.session || !req.session.user_id) {
+            return res.status(401).send('Unauthorized'); // Handle unauthorized access
+        }
+
+        // Get the currently logged-in user's ID from the session
+        const userId = req.session.user_id;
+
+        // Find the "code_io" club by its name (assuming it's unique)
+        const IEEEcs = await Clubs.findOne({ name: 'ieeecs' }).exec();
+
+        if (!IEEEcs) {
+            return res.status(404).send('Club not found');
+        }
+
+        // Find the user's document
+        const User = await user.findById(userId).exec();
+
+        if (!User) {
+            return res.status(404).send('User not found');
+        }
+
+        // Extract the user's registrations
+        const userRegistrations = User.registrations || [];
+
+        // Find event details for each registration
+        const myEvent = await Promise.all(userRegistrations.map(async (registration) => {
+            const event = await events.findById(registration.eventId).exec();
+            return event;
+        }));
+
+        // Filter userRegistrations for the given club (code_io)
+        const filteredMyEvent = myEvent.filter((event) => {
+            return event.clubId.toString() === IEEEcs._id.toString();
+        });
+
+        // Find all events related to the "code_io" club
+        const allCodeIoEvents = await events.find({ clubId: IEEEcs._id }).exec();
+        
+        // Render the EJS template with the retrieved data
+        res.render('IEEEcs', {
+            myEvent: filteredMyEvent, // Pass myEvent to the template
+            allCodeIoEvents,isAdmin:User.isAdmin,
+        });
+    } catch (error) {
+        console.error('Error handling IEEEcs page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
 
 const register_event = async (req, res) => {
     try {
@@ -303,4 +457,4 @@ const register_event = async (req, res) => {
 
 
 
-module.exports = {loadRegister,insertUser,verifyLogin,loadsecond,loadsecond_admin,logout,submitEvent,createForm,loadCodeio,loadProtocol,register_event};
+module.exports = {loadRegister,insertUser,verifyLogin,loadsecond,loadsecond_admin,logout,submitEvent,createForm,loadCodeio,loadProtocol,loadIse,loadAugmentai,loadIEEEcs,register_event};

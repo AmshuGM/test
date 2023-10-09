@@ -53,6 +53,7 @@ const eventsSchema = new mongoose.Schema({
     clubId: { type: mongoose.Schema.Types.ObjectId, ref: 'Clubs', required: true }, // Added clubId
     eventName: { type: String, required: true },
     eventDesc: { type: String, required: true },
+    googleFormLink: { type: String, required: false },
 });
 
 // Clubs Schema

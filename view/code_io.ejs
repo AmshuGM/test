@@ -186,7 +186,8 @@
               <div class="event-card">
                   <h2><%= event.eventName %></h2>
                   <p><%= event.eventDesc %></p>
-                  <button class="register-button" onclick="registerForEvent('<%= event._id %>')" style="color: #262626; background-color: rgb(247, 176, 253);">Register</button>
+                  <button class="register-button" onclick="registerForEvent('<%= event._id %>', '<%= event.googleFormLink %>')" style="color: #262626; background-color: rgb(247, 176, 253);">Register</button>
+
 
               </div>
           <% }); %>
@@ -197,7 +198,7 @@
 </section>
 
 <script>
-  function registerForEvent(eventId) {
+  function registerForEvent(eventId,googleform) {
       // Send a request to your server to update the user's registration in the database
       fetch(`/register-event/${eventId}`, {
           method: 'POST',
@@ -205,7 +206,7 @@
       .then(response => {
           if (response.ok) {
               // Redirect the user to the Google Form link
-              window.location.href = 'https://your-google-form-link.com';
+              window.location.href = googleform || 'https://your-google-form-link.com';
           } else {
               console.error('Failed to register for the event.');
           }

@@ -19,6 +19,9 @@ user_route.get('/secondpage',auth.islogin,userController.loadsecond);
 user_route.get('/logout',auth.islogin,userController.logout);
 user_route.get('/events/Code_IO',auth.islogin,userController.loadCodeio);
 user_route.get('/events/protocol',auth.islogin,userController.loadProtocol);
+user_route.get('/events/ise',auth.islogin,userController.loadIse);
+user_route.get('/events/augmentai',auth.islogin,userController.loadAugmentai);
+user_route.get('/events/IEEEcs',auth.islogin,userController.loadIEEEcs);
 // Club Id Routes - 
 
 
