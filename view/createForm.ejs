@@ -31,7 +31,7 @@
             border-radius: 4px;
         }
 
-        input[type="submit"],button {
+        input[type="submit"], button {
             background-color: #007BFF;
             color: #fff;
             padding: 10px 20px;
@@ -48,19 +48,20 @@
 <body>
     
     <form id="eventForm" action="/createEvent" method="post">
+        <label for="clubName">Club Name:</label>
+        <select id="clubName" name="clubName" required>
+            <option value="code_io">Code_IO</option>
+            <option value="protocol">Protocol</option>
+            <option value="wie">WIE</option>
+        </select><br><br>
+
         <label for="eventName">Event Name:</label>
         <input type="text" id="eventName" name="eventName" required><br><br>
 
-        <label for="eventDescription">Event Description:</label>
-        <textarea id="eventDescription" name="eventDescription" required></textarea><br><br>
+        <label for="eventDesc">Event Description:</label>
+        <textarea id="eventDesc" name="eventDesc" required></textarea><br><br>
 
-        <label for="eventType">Select Event Hoster:</label>
-        <select id="eventType" name="eventType">
-            <option value="Code_IO">Code_IO</option>
-            <option value="protocol">protocol</option>
-        </select><br><br>
-
-        <button type="submit">submit</button>
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>

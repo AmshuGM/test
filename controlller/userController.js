@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 
 const user = userModel.Users;
 const events = userModel.Events;
+const Clubs = userModel.Clubs;
 
 const securePass = async(password)=>{
     const spass = await bcrypt.hash(password,10);
@@ -108,25 +109,7 @@ const logout = async(req,res)=>{
     }
 }
 
-const fetchEvents = async (req, res) => {
-    try {
-      const u = await user.findById({ _id: req.session.user_id });
-      const myEvent = u.myEvents;
-      const obj = [];
-  
-      // Use a for...of loop with await inside to fetch each event
-      for (const eventId of myEvent) {
-        const temp = await events.findById({ _id: eventId });
-        obj.push(temp);
-      }
-  
-      // Render the page after fetching all events
-      console.log(obj)
-      res.render('code_io', { myEvent: obj });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   
 const createForm = async (req,res) =>
 {
@@ -139,38 +122,185 @@ const createForm = async (req,res) =>
         
     }
 }
-const submitEvent = async(req,res)=>{
+const submitEvent = async (req, res) => {
     try {
         // Assuming you have a mongoose model named 'EventModel'
         const event = {
-           
             eventName: req.body.eventName,
-            eventDesc: req.body.eventDescription
+            eventDesc: req.body.eventDesc,
         };
-    
-       console.log(req.body.eventName,req.body.eventDescription);
-         
-            // Fetch the target object that contains the 'events' array
-            const targetObject = await events.findOne({ eventId: req.body.eventType});
-    
-            if (targetObject) {
-                // If the object with the matching eventId is found, push the new event to its 'events' array
-                targetObject.events.push(event);
-    
-                // Save the updated object back to the database
-                await targetObject.save();
-    
+
+        // console.log(req.body.eventName, req.body.eventDescription);
+
+        // Find the club with the given clubName to get its clubId
+        const clubName = req.body.clubName; // Assuming req.body.clubName contains the clubName
+        const targetClub = await Clubs.findOne({ name: clubName }).exec();
+
+        if (targetClub) {
+            // If the club with the matching clubName is found, get its clubId
+            event.clubId = targetClub._id;
+
+            // Save the event to the 'events' collection
+            const savedEvent = await events.create(event);
+
+            if (savedEvent) {
                 res.render('createForm');
             } else {
-                // Handle the case where the object with the matching eventId was not found
+                // Handle the case where event creation fails
                 res.render('createForm');
             }
-        
+        } else {
+            // Handle the case where the club with the matching clubName was not found
+            res.render('createForm');
+        }
     } catch (error) {
         console.log(error.message);
     }
-    
-}
+};
 
 
-module.exports = {loadRegister,insertUser,verifyLogin,loadsecond,loadsecond_admin,logout,fetchEvents,submitEvent,createForm};
+const loadCodeio = async (req, res) => {
+    try {
+        // Check if user is logged in and has a valid session
+        if (!req.session || !req.session.user_id) {
+            return res.status(401).send('Unauthorized'); // Handle unauthorized access
+        }
+
+        // Get the currently logged-in user's ID from the session
+        const userId = req.session.user_id;
+
+        // Find the "code_io" club by its name (assuming it's unique)
+        const protocolClub = await Clubs.findOne({ name: 'code_io' }).exec();
+
+        if (!protocolClub) {
+            return res.status(404).send('Club not found');
+        }
+
+        // Find the user's document
+        const User = await user.findById(userId).exec();
+
+        if (!User) {
+            return res.status(404).send('User not found');
+        }
+
+        // Extract the user's registrations
+        const userRegistrations = User.registrations || [];
+
+        // Find event details for each registration
+        const myEvent = await Promise.all(userRegistrations.map(async (registration) => {
+            const event = await events.findById(registration.eventId).exec();
+            return event;
+        }));
+
+        // Filter userRegistrations for the given club (code_io)
+        const filteredMyEvent = myEvent.filter((event) => {
+            return event.clubId.toString() === protocolClub._id.toString();
+        });
+
+        // Find all events related to the "code_io" club
+        const allCodeIoEvents = await events.find({ clubId: protocolClub._id }).exec();
+        
+        // Render the EJS template with the retrieved data
+        res.render('code_io', {
+            myEvent: filteredMyEvent, // Pass myEvent to the template
+            allCodeIoEvents,isAdmin:User.isAdmin,
+        });
+    } catch (error) {
+        console.error('Error handling code_io page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+const loadProtocol = async (req, res) => {
+    try {
+        // Check if user is logged in and has a valid session
+        if (!req.session || !req.session.user_id) {
+            return res.status(401).send('Unauthorized'); // Handle unauthorized access
+        }
+
+        // Get the currently logged-in user's ID from the session
+        const userId = req.session.user_id;
+
+        // Find the "code_io" club by its name (assuming it's unique)
+        const protocolClub = await Clubs.findOne({ name: 'protocol' }).exec();
+
+        if (!protocolClub) {
+            return res.status(404).send('Club not found');
+        }
+
+        // Find the user's document
+        const User = await user.findById(userId).exec();
+
+        if (!User) {
+            return res.status(404).send('User not found');
+        }
+
+        // Extract the user's registrations
+        const userRegistrations = User.registrations || [];
+
+        // Find event details for each registration
+        const myEvent = await Promise.all(userRegistrations.map(async (registration) => {
+            const event = await events.findById(registration.eventId).exec();
+            return event;
+        }));
+
+        // Filter userRegistrations for the given club (code_io)
+        const filteredMyEvent = myEvent.filter((event) => {
+            return event.clubId.toString() === protocolClub._id.toString();
+        });
+
+        // Find all events related to the "code_io" club
+        const allCodeIoEvents = await events.find({ clubId: protocolClub._id }).exec();
+        
+        // Render the EJS template with the retrieved data
+        res.render('protocol', {
+            myEvent: filteredMyEvent, // Pass myEvent to the template
+            allCodeIoEvents,isAdmin:User.isAdmin,
+        });
+    } catch (error) {
+        console.error('Error handling code_io page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+const register_event = async (req, res) => {
+    try {
+        // Check if user is logged in and has a valid session
+        if (!req.session || !req.session.user_id) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
+        // Get the user ID from the session
+        const userId = req.session.user_id;
+        const eventId = req.params.eventId;
+
+        // Find the user document by ID
+        const User = await user.findById(userId).exec();
+
+        if (!User) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the user is already registered for the event
+        const existingRegistration = User.registrations.find(registration => registration.eventId.toString() === eventId);
+
+        if (existingRegistration) {
+            return res.status(400).json({ message: 'User is already registered for the event' });
+        }
+
+        // Add the event registration to the user's document
+        User.registrations.push({ eventId });
+        await User.save();
+
+        // Assuming registration was successful, send a success response
+        res.status(200).json({ message: 'Event registration successful' });
+    } catch (error) {
+        console.error('Error registering for the event:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+
+
+module.exports = {loadRegister,insertUser,verifyLogin,loadsecond,loadsecond_admin,logout,submitEvent,createForm,loadCodeio,loadProtocol,register_event};

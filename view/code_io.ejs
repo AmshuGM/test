@@ -8,23 +8,68 @@
   <link rel="stylesheet"type="text/css" href="/styles3.css">
   <style>
     /* Define your CSS styles here */
-   h1 ul {
+    h1 ul {
         list-style-type: none;
         padding: 0;
     }
+
     h1 ul li {
         border: 1px solid #ccc;
         padding: 10px;
         margin-bottom: 10px;
         background-color: #f5f5f5;
     }
-   h1 ul li h2 {
+
+    h1 ul li h2 {
         color: #333;
     }
-   h1 ul li p {
+
+    h1 ul li p {
         margin: 5px 0;
     }
+
+ /* Event card container for "My Events" and "All Code_IO Events" */
+ .event-card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    /* Event card style */
+    .event-card {
+        background-color: #262626; /* Dark gray background */
+        color: rgb(247, 176, 253); /* Pink text color */
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px;
+        width: calc(33.33% - 20px); /* 3 cards per row */
+        height: 200px; /* Fixed height for all cards */
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        display: inline-block;
+        vertical-align: top;
+        text-align: center;
+        transition: background-color 0.3s, color 0.3s;
+        cursor: pointer;
+        box-sizing: border-box; /* Include padding and borders in dimensions */
+    }
+
+    .event-card:hover {
+        background-color: rgb(247, 176, 253); /* Pink background on hover */
+        color: #262626; /* Dark gray text color on hover */
+    }
+
+    h2 {
+        font-size: 1.2em;
+        margin: 0;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    
 </style>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script src="https://unpkg.com/scrollreveal"></script>
   <title>Page3</title>
@@ -110,84 +155,75 @@
 
 <!-- this code is created by amshu -->
 
-<h1>My Events</h1>
-    
-    <% if (myEvent.length > 0) { %>
-      <style>
-        .event-card {
-            background-color: #262626; /* Dark gray background */
-            color: rgb(247, 176, 253); /* Pink text color */
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px;
-            width: 280px; /* Set a fixed width for all cards */
-            height: 200px; /* Set a fixed height for all cards */
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-            display: inline-block;
-            vertical-align: top;
-            text-align: center;
-            transition: background-color 0.3s, color 0.3s;
-            cursor: pointer;
-        }
-    
-        .event-card:hover {
-            background-color: rgb(247, 176, 253); /* Pink background on hover */
-            color: #262626; /* Dark gray text color on hover */
-        }
-    
-        h2 {
-            font-size: 1.2em;
-            margin: 0;
-        }
-    
-        p {
-            margin: 0;
-        }
-    </style>
-    
-    <ul>
-        <% myEvent.forEach(event => { 
-            const e = event.events;
-            for (let i=0; i < e.length; i++) { %>
-                <li class="event-card">
-                    <h2>Event <%= e[i].eventName %></h2>
-                    <p>Desc: <%= e[i].eventDesc %></p>
-                    <!-- Add more event details as needed -->
-                </li>
-            <% } 
-        }); %>
-    </ul>
-    
-    
-    <% } else { %>
-        <p>No events to display.</p>
-    <% } %>
+   <!-- ... (your header section) ... -->
+
+    <!-- ... (your introductory section about Code_IO) ... -->
+
+    <!-- My Events Section -->
+<section id="my-events">
+  <h1>My Events</h1>
+  <% if (myEvent.length > 0) { %>
+      <div class="event-card-container">
+          <% myEvent.forEach(event => { %>
+              <div class="event-card">
+                  <h2><%= event.eventName %></h2>
+                  <p><%= event.eventDesc %></p>
+                  <!-- Add more event details as needed -->
+              </div>
+          <% }); %>
+      </div>
+  <% } else { %>
+      <p>No events to display.</p>
+  <% } %>
+</section>
+
+<!-- All Code_IO Events Section -->
+<section id="code-io-events">
+  <h1>All Code_IO Events</h1>
+  <% if (allCodeIoEvents.length > 0) { %>
+      <div class="event-card-container">
+          <% allCodeIoEvents.forEach(event => { %>
+              <div class="event-card">
+                  <h2><%= event.eventName %></h2>
+                  <p><%= event.eventDesc %></p>
+                  <button class="register-button" onclick="registerForEvent('<%= event._id %>')" style="color: #262626; background-color: rgb(247, 176, 253);">Register</button>
+
+              </div>
+          <% }); %>
+      </div>
+  <% } else { %>
+      <p>No events to display for Code_IO.</p>
+  <% } %>
+</section>
+
 <script>
-  window.onload = function() {
-    const contentContainer = document.getElementById('amshu');
-    fetch('/events') 
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json(); 
-  })
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.error('There was a problem with the fetch operation:', error);
-  });
-  };
-
-  function addevent()
-  {
-    console.log("the event button is working");
+  function registerForEvent(eventId) {
+      // Send a request to your server to update the user's registration in the database
+      fetch(`/register-event/${eventId}`, {
+          method: 'POST',
+      })
+      .then(response => {
+          if (response.ok) {
+              // Redirect the user to the Google Form link
+              window.location.href = 'https://your-google-form-link.com';
+          } else {
+              console.error('Failed to register for the event.');
+          }
+      })
+      .catch(error => {
+          console.error('Error registering for the event:', error);
+      });
   }
-
 </script>
 
-<a href="/createEvent">Add event</a>
+
+<!-- Add Event Button (visible if isAdmin is greater than zero) -->
+<% if (typeof isAdmin !== 'undefined' && isAdmin > 0) { %>
+  <button id="add-event-button" onclick="window.location.href = '/createEvent'"
+    style="background-color: #262626; color: rgb(247, 176, 253); border-radius: 5px; padding: 10px; margin: 0 auto; display: block;">
+    Add Event
+  </button>
+<% } %>
 
 <!-- and it finished here -->
 
